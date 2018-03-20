@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { Observable } = require('rxjs/Rx');
-const onFsError = require('./fs_error');
+const { onFsError } = require('../../util');
 
 const fsAccess = Observable.bindNodeCallback(fs.access);
 

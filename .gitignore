@@ -2,3 +2,5 @@
 /sounds/
 npm-debug.log
 .env
+/.vscode/
+/public/

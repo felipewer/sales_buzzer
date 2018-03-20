@@ -1,4 +1,4 @@
-const intersect = (first, second) => {
+exports.intersect = (first, second) => {
   const combined = new Set(first);
   for (let i of second) {
     if (combined.has(i)) {
@@ -10,4 +10,16 @@ const intersect = (first, second) => {
   return false;
 }
 
-module.exports = { intersect };
+exports.onFsError = (response) => (err) => {
+  switch(err.code){
+    case 'ENOENT':
+      response.status(404).send();
+      break;
+    case 'EEXIST':
+      response.status(409).send();
+      break;
+    default:
+      console.error(JSON.stringify(err));
+      response.status(500).send();
+  }
+}
