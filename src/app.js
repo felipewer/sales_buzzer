@@ -9,15 +9,16 @@ const speech = require('./api/speech/speech.routes');
 
 const app = express();
 
-// app.set('view engine', 'ejs');
 authSetup.configure(app)
 
 app.use('/', express.static(path.join(__dirname, '..', '/public')));
 app.use('/auth', auth);
 app.use('/api', sounds, speech);
 
-if (!fs.existsSync(config.SOUNDS_FOLDER)) {
+if (!fs.existsSync(config.DB_FOLDER)) {
+  fs.mkdirSync(config.DB_FOLDER);
   fs.mkdirSync(config.SOUNDS_FOLDER);
+  fs.mkdirSync(config.TOKENS_FOLDER);
 }
 
 app.listen(config.PORT, () => {

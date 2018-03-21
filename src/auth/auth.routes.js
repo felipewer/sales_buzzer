@@ -11,9 +11,9 @@ router.get('/github',
 router.get('/github/callback', 
   passport.authenticate('github', { failureRedirect: '/', session: false }),
   (req, res) => {
-    // Successful authentication, load access_token into client storage.
-    // res.render('access_token', { accessToken: req.user.accessToken });
-    res.redirect(`/#&access_token=${req.user.accessToken}`);
+    // Successful authentication, load access_token to redirect url.
+    const encoded = encodeURIComponent(req.user.accessToken);
+    res.redirect(`/#&access_token=${encoded}`);
   }
 );
 
