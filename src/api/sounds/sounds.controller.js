@@ -20,6 +20,7 @@ exports.listSounds = (req, res) => {
 exports.addSound = (req, res) => {
   const {sound, url} = req.body
   const soundPath = path.join(config.SOUNDS_FOLDER, sound)
+  // TODO - remove file on request error
   fsOpen(soundPath, 'wx')
     .subscribe(
       fd => {

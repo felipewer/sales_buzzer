@@ -15,6 +15,8 @@ app.use('/', express.static(path.join(__dirname, '..', '/public')));
 app.use('/auth', auth);
 app.use('/api', sounds, speech);
 
+app.get('/login', (req, res) => res.redirect('/'));
+
 if (!fs.existsSync(config.DB_FOLDER)) {
   fs.mkdirSync(config.DB_FOLDER);
   fs.mkdirSync(config.SOUNDS_FOLDER);

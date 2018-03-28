@@ -1,21 +1,10 @@
 import { h } from 'preact';
-import style from './style';
 
-const Header = (props) => {
-	const SocialLogin = () => (
-		(props.loggedIn) ?
-			<a onClick={props.logOut}>Logout</a> :
-			<a href="/auth/github" native>Github</a>
-	);
-
-	return (
-		<header class={style.header}>
-			<h1>Startup Buzzer</h1>
-			<nav>
-				<SocialLogin />
-			</nav>
-		</header>
-	);
-};
+const Header = (props) => (
+	<header>
+		<img src="/assets/icons/logo.png" width="35" height="35" />
+		<button id="logout" onClick={props.logOut}>Logout</button>
+	</header>
+);
 
 export default Header;
