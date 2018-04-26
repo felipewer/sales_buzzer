@@ -1,10 +1,49 @@
-import { h } from 'preact';
+import { h, Component } from 'preact';
 
-const Header = (props) => (
-	<header>
-		<img src="/assets/icons/logo.png" width="35" height="35" />
-		<button id="logout" onClick={props.logOut}>Logout</button>
-	</header>
-);
+export default class Header extends Component {
 
-export default Header;
+	constructor(props) {
+		super(props);
+		this.state = { menuActive: false };
+		this.toogleMenu = this.toogleMenu.bind(this);
+	}
+
+	toogleMenu() {
+		this.setState({ menuActive: !this.state.menuActive });
+	}
+
+	render(props, state) {
+		const isActive = (state.menuActive) ? 'is-active' : '';
+		return (
+			<header>
+				<nav class="navbar" role="navigation">
+					<div class="navbar-brand">
+						<a class="navbar-item" href="/">
+							<figure class="image is-24x24">
+								<img alt="Startup Buzzer" src="/assets/icons/logo.png" />
+							</figure>
+							<p class="subtitle">&nbsp;Startub Buzzer</p>
+						</a>
+						<a class={`navbar-burger ${isActive}`}
+							role="button"
+							onClick={this.toogleMenu}
+							aria-label="menu"
+							aria-expanded="false">
+							<span aria-hidden="true"></span>
+							<span aria-hidden="true"></span>
+							<span aria-hidden="true"></span>
+						</a>
+					</div>
+					<div class={`navbar-menu ${isActive}`}>
+						<div class="navbar-end">
+							<a class="navbar-item"
+								onClick={props.logOut}>
+								Logout
+							</a>
+						</div>
+					</div>
+				</nav>
+			</header>
+		);
+	}
+}

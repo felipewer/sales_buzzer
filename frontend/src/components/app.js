@@ -1,5 +1,6 @@
 import { h, Component } from 'preact';
 import { Router, route } from 'preact-router';
+import Match from 'preact-router/match';
 
 import emitter from './event_emitter';
 import Header from './header/header';
@@ -61,12 +62,16 @@ export default class App extends Component {
 		route('/login', true);
 	}
 	
-	render() {
+	render(props, state) {
 		return (
 			<div id="app">
-				<Header loggedIn={this.state.loggedIn} logOut={this.logOut} />
+				<Header loggedIn={state.loggedIn} logOut={this.logOut} />
 				<Router onChange={this.handleRoute}>
-					<Home path="/" />
+					<Match path="/">
+						{ ({ matches }) => matches && state.loggedIn && (
+							<Home />
+						) }
+					</Match>
 					<Login path="/login" />
 				</Router>
 				<Message duration="4000" />
