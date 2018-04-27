@@ -6,6 +6,12 @@ export default class Header extends Component {
 		super(props);
 		this.state = { menuActive: false };
 		this.toogleMenu = this.toogleMenu.bind(this);
+		this.logOut = this.logOut.bind(this);
+	}
+
+	logOut() {
+		this.props.logOut();
+		this.setState({ menuActive: false });
 	}
 
 	toogleMenu() {
@@ -37,7 +43,7 @@ export default class Header extends Component {
 					<div class={`navbar-menu ${isActive}`}>
 						<div class="navbar-end">
 							<a class="navbar-item"
-								onClick={props.logOut}>
+								onClick={this.logOut}>
 								Logout
 							</a>
 						</div>
