@@ -2,14 +2,14 @@ import { h, Component } from 'preact';
 import { Router, route } from 'preact-router';
 import Match from 'preact-router/match';
 
-import emitter from './event_emitter';
-import Header from './header/header';
-import Login from './login/login';
-import Home from './home/home';
-import Message from './message/message';
+import emitter from '../services/event_emitter';
+import Header from './app/Header';
+import Home from './app/Home';
+import Login from './app/Login';
+import Message from './app/Message';
 
 // import Home from 'async!./home/home';
-import auth from './auth';
+import auth from '../services/auth';
 
 if (module.hot) {
 	require('preact/debug');

@@ -1,15 +1,15 @@
 import { h, Component } from 'preact';
-import emitter from '../event_emitter';
-import AddSound from './sound/add_sound';
-import SoundsList from './sound/sounds_list';
-import Speak from './speech/speak';
+import emitter from '../../services/event_emitter';
+import AddSound from './home/sound/AddSound';
+import SoundsList from './home/sound/SoundsList';
+import Speak from './home/speech/Speak';
 import {
 	addSound,
 	listSounds,
 	playSound,
 	removeSound,
 	speak
-} from '../api';
+} from '../../services/api';
 
 
 export default class Home extends Component {

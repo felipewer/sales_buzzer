@@ -1,5 +1,5 @@
 import { h, Component } from 'preact';
-import emitter from '../event_emitter';
+import emitter from '../../services/event_emitter';
 
 export default class Message extends Component {
 
