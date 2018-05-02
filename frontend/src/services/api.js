@@ -20,7 +20,9 @@ export const addSound = (sound, url) =>
 
 export const listSounds = () =>
 	// Promise.resolve([
-	// 	"sound1", "sound2", "sound3"
+	// 	"sound1", 
+	// 	"sound2", 
+	// 	"sound3"
 	// ])
 	get('/api/sounds', { headers: headers() })
 		.then(response => response.data)

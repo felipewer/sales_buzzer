@@ -1,5 +1,8 @@
 import { h, Component } from 'preact';
 import linkState from 'linkstate';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import faBullhorn from '@fortawesome/fontawesome-free-solid/faBullhorn'
+import faPlay from '@fortawesome/fontawesome-free-solid/faPlay'
 
 export default class Speak extends Component {
 
@@ -18,12 +21,26 @@ export default class Speak extends Component {
   render(props, state) {
   	return (
       <form onSubmit={this.handleSubmit}>
-        <input type="text" 
-          placeholder="Blabla..."
-          value={state.speech}
-          onChange={linkState(this, 'speech')}
-          required/>
-        <input type="submit" value="Speak" />
+        <div class="field has-addons">
+          <div class="control has-icons-left is-expanded">
+            <input type="text"
+              class="input"
+              placeholder="Say something..."
+              value={state.speech}
+              onChange={linkState(this, 'speech')}
+              required />
+            <span class="icon is-small is-left">
+              <FontAwesomeIcon icon={faBullhorn} />
+            </span>
+          </div>
+          <div class="control">
+            <button class="button is-primary" type="submit">
+              <span class="icon">
+                <FontAwesomeIcon icon={faPlay} />
+              </span>
+            </button>
+          </div>
+        </div>
       </form>
     );
   }

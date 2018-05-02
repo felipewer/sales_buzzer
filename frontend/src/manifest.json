@@ -1,6 +1,6 @@
 {
   "name": "Startup Buzzer",
-  "short_name": "buzzer",
+  "short_name": "Startup Buzzer",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",

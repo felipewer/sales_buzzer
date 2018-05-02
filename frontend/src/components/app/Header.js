@@ -28,7 +28,7 @@ export default class Header extends Component {
 							<figure class="image is-24x24">
 								<img alt="Startup Buzzer" src="/assets/icons/logo.png" />
 							</figure>
-							<p class="subtitle">&nbsp;Startub Buzzer</p>
+							<p class="subtitle">&nbsp;Startup Buzzer</p>
 						</a>
 						<a class={`navbar-burger ${isActive}`}
 							role="button"

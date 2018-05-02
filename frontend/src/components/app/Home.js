@@ -66,17 +66,26 @@ export default class Home extends Component {
 
 	render(props, state) {
 		return (
-			<article id="home">
-				<section id="speak">
-					<Speak onSpeak={this.handleSpeak} />
+			<article>
+				<section class="section">
+					<div class="container">
+						<div class="box">
+							<h1 class="subtitle has-text-centered">Speech</h1>
+							<Speak onSpeak={this.handleSpeak} />
+						</div>
+					</div>
 				</section>
-				<section id="add-sound">
-					<AddSound onAddSound={this.handleAddSound} />
-				</section>
-				<section id="sound-list">
-					<SoundsList sounds={state.sounds}
-						play={this.handlePlaySound}
-						remove={this.handleRemove} />
+				<section class="section">
+					<div class="container">
+						<div class="box">
+							<h1 class="subtitle has-text-centered">Sounds</h1>
+							<AddSound onAddSound={this.handleAddSound} />
+							<hr />
+							<SoundsList sounds={state.sounds}
+								play={this.handlePlaySound}
+								remove={this.handleRemove} />
+						</div>
+					</div>
 				</section>
 			</article>
 		);
