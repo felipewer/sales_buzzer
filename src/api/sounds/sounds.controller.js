@@ -12,7 +12,7 @@ const fsUnlink = Observable.bindNodeCallback(fs.unlink);
 
 exports.listSounds = (req, res) => {
   fsReaddir(config.SOUNDS_FOLDER).subscribe(
-    files => res.status(200).json(files),
+    files => res.status(200).json(files.reverse()),
     onFsError(res)
   );
 }

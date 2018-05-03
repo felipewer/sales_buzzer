@@ -6,7 +6,7 @@ import emitter from '../services/event_emitter';
 import Header from './app/Header';
 import Home from './app/Home';
 import Login from './app/Login';
-import Message from './app/Message';
+import Notification from './app/Notification';
 
 // import Home from 'async!./home/home';
 import auth from '../services/auth';
@@ -74,7 +74,7 @@ export default class App extends Component {
 					</Match>
 					<Login path="/login" />
 				</Router>
-				<Message duration="4000" />
+				<Notification duration="4000" />
 			</div>
 		);
 	}

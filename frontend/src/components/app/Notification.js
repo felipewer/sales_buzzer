@@ -1,7 +1,8 @@
 import { h, Component } from 'preact';
 import emitter from '../../services/event_emitter';
+import style from './notification/style.scss';
 
-export default class Message extends Component {
+export default class Notification extends Component {
 
   constructor(props) {
   	super(props);
@@ -22,12 +23,12 @@ export default class Message extends Component {
   }
 
   onError(msg) {
-    this.show('DISPLAY_ERROR', msg);
+    this.show('is-danger', msg);
     setTimeout(() => this.hide(), this.props.duration || 2000);
   }
 
   onInfo(msg) {
-    this.show('DISPLAY_INFO', msg);
+    this.show('is-info', msg);
     setTimeout(() => this.hide(), this.props.duration || 2000);
   }
 
@@ -44,10 +45,12 @@ export default class Message extends Component {
   render(props, state) {
     if (!state.visible) return null;
   	return (
-        <div class="message">
-          <span class={state.type}>{state.text}</span>
-          <button onClick={this.hide}>X</button>
+      <div class={style['notification-container']}>
+        <div class={`notification ${state.type}`}>
+          <button class="delete" onClick={this.hide}></button>
+          <p>{state.text}</p>
         </div>
+      </div>
     );
   }
 }
