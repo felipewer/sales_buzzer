@@ -1,1 +1,28 @@
+@import "bulma/sass/utilities/initial-variables";
+@import "bulma/sass/utilities/functions";
+
+
+$buzzer-green: #7cb342;
+$buzzer-green-invert: findColorInvert($buzzer-green);
+$buzzer-lime: #eeff41;
+$buzzer-lime-invert: findColorInvert($buzzer-lime);
+$secondary: $buzzer-lime;
+$secondary-invert: $buzzer-lime-invert;
+
+$red: #f44336;
+$red-invert: findColorInvert($red);
+$primary: $buzzer-green;
+$primary-invert: $buzzer-green-invert;
+$link: $black-ter;
+$link-invert: $white-ter;
+$body-background-color: $white-ter;
+
+@import "bulma/sass/utilities/derived-variables";
+$addColors: (
+  "buzzer-green":($buzzer-green, $buzzer-green-invert),
+  "buzzer-lime": ($buzzer-lime, $buzzer-lime-invert),
+  "secondary": ($secondary, $secondary-invert)
+);
+$colors: map-merge($colors, $addColors);
+
 @import 'bulma/bulma';

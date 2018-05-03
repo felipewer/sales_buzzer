@@ -50,7 +50,7 @@ export default class AddSound extends Component {
         </div>
         <div class="field is-grouped is-grouped-right">
           <div class="control">
-            <button class="button is-primary"
+            <button class="button is-secondary"
               type="submit">
               <span class="icon">
                 <FontAwesomeIcon icon={faPlus} />

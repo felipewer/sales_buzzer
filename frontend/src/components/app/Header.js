@@ -22,7 +22,7 @@ export default class Header extends Component {
 		const isActive = (state.menuActive) ? 'is-active' : '';
 		return (
 			<header>
-				<nav class="navbar" role="navigation">
+				<nav class="navbar is-primary" role="navigation">
 					<div class="navbar-brand">
 						<a class="navbar-item" href="/">
 							<figure class="image is-24x24">

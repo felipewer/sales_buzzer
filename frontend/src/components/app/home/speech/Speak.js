@@ -34,7 +34,7 @@ export default class Speak extends Component {
             </span>
           </div>
           <div class="control">
-            <button class="button is-primary" type="submit">
+            <button class="button is-secondary" type="submit">
               <span class="icon">
                 <FontAwesomeIcon icon={faPlay} />
               </span>

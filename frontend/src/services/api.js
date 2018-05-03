@@ -19,11 +19,6 @@ export const addSound = (sound, url) =>
 	).catch(unauthorized);
 
 export const listSounds = () =>
-	// Promise.resolve([
-	// 	"sound1", 
-	// 	"sound2", 
-	// 	"sound3"
-	// ])
 	get('/api/sounds', { headers: headers() })
 		.then(response => response.data)
 		.catch(unauthorized);

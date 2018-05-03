@@ -27,7 +27,7 @@ export default class SoundsList extends Component {
 							</td>
 							<td class="has-text-right" style="width: 30px;">
 								<button
-									class="button is-primary is-small" 
+									class="button is-secondary is-small" 
 									value={sound} 
 									onClick={this.play}>
 									<span class="icon">
@@ -36,7 +36,7 @@ export default class SoundsList extends Component {
 								</button>
 							</td>
 							<td class="has-text-right" style="width: 30px;">
-								<button class="button is-small"
+								<button class="button is-danger is-small"
 									value={sound} 
 									onClick={this.remove}>
 									<span class="icon">
