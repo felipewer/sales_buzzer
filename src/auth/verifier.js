@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const request = require('request');
 const { Observable } = require('rxjs/Rx');
-const { intersect } = require('../util');
+const { intersect } = require('../util/intersect');
 
 const fsWriteFile = Observable.bindNodeCallback(fs.writeFile);
 const fsStat = Observable.bindNodeCallback(fs.stat);

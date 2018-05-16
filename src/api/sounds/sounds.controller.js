@@ -1,10 +1,11 @@
 const fs = require('fs');
 const path = require('path');
+const URL = require('url').URL;
 const player = require('play-sound')(opts = {});
 const request = require('request');
 const { Observable } = require('rxjs/Rx');
 const config = require('../../config')
-const { onFsError } = require('../../util');
+const { fsErrorHandler } = require('../../util/fs_error_handler');
 
 const fsOpen = Observable.bindNodeCallback(fs.open);
 const fsReaddir = Observable.bindNodeCallback(fs.readdir);
@@ -12,14 +13,16 @@ const fsUnlink = Observable.bindNodeCallback(fs.unlink);
 
 exports.listSounds = (req, res) => {
   fsReaddir(config.SOUNDS_FOLDER).subscribe(
-    files => res.status(200).json(files.reverse()),
-    onFsError(res)
+    files => res.json(files.reverse()),
+    fsErrorHandler(res)
   );
 }
 
 exports.addSound = (req, res) => {
-  const {sound, url} = req.body
-  const soundPath = path.join(config.SOUNDS_FOLDER, sound)
+  const {soundName, url} = req.body
+  const soundUrl = new URL(url);
+  const extname = path.extname(soundUrl.pathname).substring(1);
+  const soundPath = path.join(config.SOUNDS_FOLDER, `${soundName}.${extname}`);
   // TODO - remove file on request error
   fsOpen(soundPath, 'wx')
     .subscribe(
@@ -29,7 +32,7 @@ exports.addSound = (req, res) => {
           .on('response', resp => res.status(201).send())  
           .pipe(fs.createWriteStream('', { fd }))
       },  
-      onFsError(res)
+      fsErrorHandler(res)
     );  
 }
 
@@ -49,6 +52,6 @@ exports.removeSound = (req, res) => {
   const soundPath = path.join(config.SOUNDS_FOLDER, req.params.soundName)
   fsUnlink(soundPath).subscribe(
     () => res.status(200).send(),
-    onFsError(res)
+    fsErrorHandler(res)
   )
 }

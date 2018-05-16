@@ -6,6 +6,7 @@ const authSetup = require('./auth/setup');
 const auth = require('./auth/auth.routes');
 const sounds = require('./api/sounds/sounds.routes');
 const speech = require('./api/speech/speech.routes');
+const errorHandler = require('./util/error_handler');
 
 const app = express();
 
@@ -13,7 +14,7 @@ authSetup.configure(app)
 
 app.use('/', express.static(path.join(__dirname, '..', '/public')));
 app.use('/auth', auth);
-app.use('/api', sounds, speech);
+app.use('/api', sounds, speech , errorHandler);
 
 app.get('/login', (req, res) => res.redirect('/'));
 

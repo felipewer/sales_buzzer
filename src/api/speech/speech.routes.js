@@ -1,11 +1,14 @@
-const bodyParser = require('body-parser');
 const express = require('express');
 const speech = require('./speech.controller');
-const config = require('../../config')
+const { checkSpeech } = require('./speech.validator');
+const errorMapper = require('../../util/middleware/validation_error_mapper');
 
 const router = express.Router()
-const jsonParser = bodyParser.json();
 
-router.post('/speech', jsonParser, speech.speak);
+router.post('/speech',
+  express.json(),
+  [checkSpeech, errorMapper ], 
+  speech.speak
+);
 
 module.exports = router;

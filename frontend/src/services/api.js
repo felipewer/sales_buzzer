@@ -12,9 +12,9 @@ const unauthorized = err => {
 	throw err;
 }
 
-export const addSound = (sound, url) =>
+export const addSound = (soundName, url) =>
 	post('/api/sounds',
-		{ sound, url },
+		{ soundName, url },
 		{ headers: headers() }
 	).catch(unauthorized);
 

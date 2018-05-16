@@ -1,12 +1,12 @@
+const boom = require('boom');
 const speaker = require('./speaker');
 
-exports.speak = (req, res) => {
-  speaker.speak(req.body.speech, (err) => {
+exports.speak = (req, res, next) => {
+  const { speech }  = req.body;
+  speaker.speak(speech, (err) => {
     if(err) {
-      console.error(err);
-      res.status(500).send();
-    }else{
-      res.status(200).send();
+      return next(bomm.badImplementation(err));
     }
+    res.send();
   });
 }

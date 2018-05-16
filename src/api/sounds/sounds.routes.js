@@ -1,22 +1,32 @@
-const bodyParser = require('body-parser');
 const express = require('express');
-const config = require('../../config')
-const notFound = require('./not_found')
+const config = require('../../config');
+const notFound = require('./not_found');
 const sounds = require('./sounds.controller');
+const errorMapper = require('../../util/middleware/validation_error_mapper');
+const {
+  checkFileName,
+  checkName,
+  checkUrl
+} = require('./sounds.validator');
 
 const router = express.Router()
-const jsonParser = bodyParser.json();
 
 router.get('/sounds', sounds.listSounds);
 
-router.post(`/sounds`, jsonParser, sounds.addSound);  
+router.post(`/sounds`,
+  express.json(),
+  [ checkName, checkUrl, errorMapper ],
+  sounds.addSound
+);  
 
 router.get('/sounds/:soundName',
+  [checkFileName, errorMapper ], 
   notFound(config.SOUNDS_FOLDER), 
   sounds.playSound
 );
 
 router.delete('/sounds/:soundName',
+  [checkFileName, errorMapper ], 
   notFound(config.SOUNDS_FOLDER),
   sounds.removeSound
 );
