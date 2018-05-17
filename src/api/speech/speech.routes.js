@@ -1,6 +1,6 @@
 const express = require('express');
 const speech = require('./speech.controller');
-const { checkSpeech } = require('./speech.validator');
+const { checkSpeech } = require('./validator');
 const errorMapper = require('../../util/middleware/validation_error_mapper');
 
 const router = express.Router()

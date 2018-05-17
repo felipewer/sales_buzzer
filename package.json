@@ -4,10 +4,15 @@
   "description": "",
   "scripts": {
     "start": "nodemon --trace-warnings src/app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --watch"
   },
   "author": "Felipe Carlos Werlang",
   "license": "ISC",
+  "jest": {
+    "roots": [ "src" ],
+    "collectCoverage": false,
+    "collectCoverageFrom": [ "**/*.{js}" ]
+  },
   "dependencies": {
     "body-parser": "^1.18.1",
     "boom": "^7.2.0",
@@ -22,6 +27,7 @@
     "rxjs": "^5.5.0"
   },
   "devDependencies": {
+    "jest": "^22.4.3",
     "nodemon": "^1.17.2"
   }
 }

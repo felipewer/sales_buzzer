@@ -7,7 +7,7 @@ const {
   checkFileName,
   checkName,
   checkUrl
-} = require('./sounds.validator');
+} = require('./validator');
 
 const router = express.Router()
 
