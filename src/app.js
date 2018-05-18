@@ -3,9 +3,9 @@ const fs = require('fs');
 const path = require('path');
 const config = require('./config');
 const authSetup = require('./auth/setup');
-const auth = require('./auth/auth.routes');
-const sounds = require('./api/sounds/sounds.routes');
-const speech = require('./api/speech/speech.routes');
+const auth = require('./auth/routes');
+const sounds = require('./api/sounds/routes');
+const speech = require('./api/speech/routes');
 const errorHandler = require('./util/error_handler');
 
 const app = express();

@@ -1,7 +1,7 @@
 const express = require('express');
 const config = require('../../config');
 const notFound = require('./not_found');
-const sounds = require('./sounds.controller');
+const sounds = require('./controller');
 const errorMapper = require('../../util/middleware/validation_error_mapper');
 const {
   checkFileName,
