@@ -3,15 +3,18 @@
   "version": "0.0.0",
   "description": "",
   "scripts": {
-    "start": "nodemon --trace-warnings src/app.js",
-    "test": "jest --watch"
+    "start": "nodemon --trace-warnings src/server.js",
+    "test": "jest",
+    "test-unit": "jest --watch --roots=src",
+    "test-int": "jest --watch --roots=tests"
   },
   "author": "Felipe Carlos Werlang",
   "license": "ISC",
   "jest": {
-    "roots": [ "src" ],
     "collectCoverage": false,
-    "collectCoverageFrom": [ "**/*.{js}" ]
+    "collectCoverageFrom": [
+      "**/*.{js}"
+    ]
   },
   "dependencies": {
     "body-parser": "^1.18.1",
@@ -28,6 +31,7 @@
   },
   "devDependencies": {
     "jest": "^22.4.3",
-    "nodemon": "^1.17.2"
+    "nodemon": "^1.17.2",
+    "supertest": "^3.1.0"
   }
 }

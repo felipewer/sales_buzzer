@@ -1,7 +1,5 @@
 const express = require('express');
-const fs = require('fs');
 const path = require('path');
-const config = require('./config');
 const authSetup = require('./auth/setup');
 const auth = require('./auth/routes');
 const sounds = require('./api/sounds/routes');
@@ -18,12 +16,4 @@ app.use('/api', sounds, speech , errorHandler);
 
 app.get('/login', (req, res) => res.redirect('/'));
 
-if (!fs.existsSync(config.DB_FOLDER)) {
-  fs.mkdirSync(config.DB_FOLDER);
-  fs.mkdirSync(config.SOUNDS_FOLDER);
-  fs.mkdirSync(config.TOKENS_FOLDER);
-}
-
-app.listen(config.PORT, () => {
-    console.log(`Startup Buzzer listening on port ${config.PORT}!`)
-});
+module.exports = app;

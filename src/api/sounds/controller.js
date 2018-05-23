@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const URL = require('url').URL;
+const util = require('util');
 const player = require('play-sound')(opts = {});
 const request = require('request');
 const { Observable } = require('rxjs/Rx');
@@ -8,14 +9,13 @@ const config = require('../../config')
 const { fsErrorHandler } = require('../../util/fs_error_handler');
 
 const fsOpen = Observable.bindNodeCallback(fs.open);
-const fsReaddir = Observable.bindNodeCallback(fs.readdir);
 const fsUnlink = Observable.bindNodeCallback(fs.unlink);
 
-exports.listSounds = (req, res) => {
-  fsReaddir(config.SOUNDS_FOLDER).subscribe(
-    files => res.json(files.reverse()),
-    fsErrorHandler(res)
-  );
+const fsReaddir = util.promisify(fs.readdir);
+
+exports.list = () => {
+  return fsReaddir(config.SOUNDS_FOLDER)
+    .then((f) => f.reverse())
 }
 
 exports.addSound = (req, res) => {

@@ -1,5 +1,5 @@
-const express = require('express');
 const boom = require('boom');
+const express = require('express');
 const { speak } = require('./controller');
 const { checkSpeech } = require('./validator');
 const errorMapper = require('../../util/middleware/validation_error_mapper');
@@ -13,7 +13,7 @@ router.post('/speech',
   (req, res, next) => {
     speak(req.body.speech)
       .then(() => res.send())
-      .catch((err) => next(boom.badImplementation(err)));
+      .catch((err) => next(boom.internal(err)));
   }
   // async (req, res, next) => {
   //   try {

@@ -1,3 +1,4 @@
+const boom = require('boom');
 const express = require('express');
 const config = require('../../config');
 const notFound = require('./not_found');
@@ -11,7 +12,14 @@ const {
 
 const router = express.Router()
 
-router.get('/sounds', sounds.listSounds);
+router.get('/sounds', async (req, res, next) => {
+  try {
+    const soundList = await sounds.list();
+    res.json(soundList);
+  } catch(err) {
+    next(boom.internal(err));
+  }
+});
 
 router.post(`/sounds`,
   express.json(),
