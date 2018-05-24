@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const URL = require('url').URL;
 const util = require('util');
-const player = require('play-sound')(opts = {});
+const player = require('./player');
 const request = require('request');
 const { Observable } = require('rxjs/Rx');
 const config = require('../../config')
@@ -12,10 +12,16 @@ const fsOpen = Observable.bindNodeCallback(fs.open);
 const fsUnlink = Observable.bindNodeCallback(fs.unlink);
 
 const fsReaddir = util.promisify(fs.readdir);
+const play = util.promisify(player.play);
 
 exports.list = () => {
   return fsReaddir(config.SOUNDS_FOLDER)
     .then((f) => f.reverse())
+}
+
+exports.play = (soundName) => {
+  const soundPath = path.join(config.SOUNDS_FOLDER, soundName)
+  return play(soundPath);
 }
 
 exports.addSound = (req, res) => {
@@ -36,17 +42,6 @@ exports.addSound = (req, res) => {
     );  
 }
 
-exports.playSound = (req, res) => {
-  const soundPath = path.join(config.SOUNDS_FOLDER, req.params.soundName)
-  player.play(soundPath, (err) => {
-    if(err) {
-      console.error(err);
-      res.status(500).send();
-    }else{
-      res.status(200).send();
-    }
-  });
-}
 
 exports.removeSound = (req, res) => {
   const soundPath = path.join(config.SOUNDS_FOLDER, req.params.soundName)
