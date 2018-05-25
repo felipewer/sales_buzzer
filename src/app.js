@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const helmet = require('helmet');
 const authSetup = require('./auth/setup');
 const auth = require('./auth/routes');
 const sounds = require('./api/sounds/routes');
@@ -7,6 +8,8 @@ const speech = require('./api/speech/routes');
 const errorHandler = require('./util/error_handler');
 
 const app = express();
+
+app.use(helmet());
 
 authSetup.configure(app)
 
