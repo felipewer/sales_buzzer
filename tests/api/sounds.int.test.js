@@ -170,7 +170,7 @@ describe('sounds route', () => {
       await fsUnlink(soundPath);
     });
 
-    describe.only('sound exists', () => {
+    describe('sound exists', () => {
       
       beforeAll(async () => {
         await fsWriteFile(soundPath, 'fake content');

@@ -1,3 +1,5 @@
+const Werror = require('./werror');
+
 module.exports = (read$, write$, sizeLimit, callback) => {
     let currentSize = 0;
     read$.on('data', chunk => {
@@ -5,8 +7,7 @@ module.exports = (read$, write$, sizeLimit, callback) => {
       
       currentSize += chunk.length;
       if (currentSize > sizeLimit) {
-        const error = new Error('Size limit exeeded');
-        error.code = 'EMSGSIZE';
+        const error = new Werror('Size limit exeeded', 'EMSGSIZE');
         read$.emit('error', error);
       } 
     }).on('error', err => {

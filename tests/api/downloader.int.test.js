@@ -9,6 +9,7 @@ const fsWriteFile = util.promisify(fs.writeFile);
 const fsUnlink = util.promisify(fs.unlink);
 
 const url = 'https://raw.githubusercontent.com/felipewer/mock-files/master/mock_100_bytes.mp3';
+const urlLarge = 'https://raw.githubusercontent.com/felipewer/mock-files/master/mock_1025_bytes.mp3';
 
 const fileExists = async (path) => {
   try {
@@ -39,11 +40,10 @@ describe('getContentLength', () => {
 });
 
 describe('download', () => {
-  const file1Path = path.join(config.SOUNDS_FOLDER, 'test_download_file1.mp3');
-  const file2Path = path.join(config.SOUNDS_FOLDER, 'test_download_file2.mp3');
+  const filePath = path.join(config.SOUNDS_FOLDER, 'test_download_file.mp3');
 
   test('Should fail', done => {
-    download('http://fake.com/file.txt', file1Path, 100)
+    download('http://fake.com/file.txt', filePath, 100)
       .catch(err => {
         expect(err.code).toBe('ENOTFOUND');
         done();
@@ -53,15 +53,15 @@ describe('download', () => {
   describe('file exists', () => {
 
     beforeEach(async () => {
-      await fsWriteFile(file1Path, 'fake content');
+      await fsWriteFile(filePath, 'fake content');
     });
   
     afterEach(async () => {
-      await fsUnlink(file1Path);
+      await fsUnlink(filePath);
     });
   
     test('Filename should already exist', done => {
-      download(url, file1Path, 100)
+      download(url, filePath, 100)
         .catch(err => {
           expect(err.code).toBe('EEXIST');
           done();
@@ -73,28 +73,38 @@ describe('download', () => {
   describe('file does not exist', () => {
 
     afterEach(async () => {
-      try {
-        await fsUnlink(file2Path);
-      } catch (err) { 
-        // Ignore!
-      }
+      await fsUnlink(filePath);
     });
 
-    test('file should exceed limit', async () => {
-      try {
-        await download(url, file2Path, 60);
-        fail('Should throw EMSGSIZE');
-      } catch(err) {
-        expect(err.code).toBe('EMSGSIZE');
-        expect(await fileExists(file2Path)).toBeFalsy();
-      }
-    });
-    
     test('download should succeed', async () => {
-      await download(url, file2Path, 100);
-      expect(await fileExists(file2Path)).toBeTruthy();
+      await download(url, filePath, 100);
+      expect(await fileExists(filePath)).toBeTruthy();
     });
 
   });
+  
+  describe('Check content size', async () => {
+    
+    test('file should exceed limit (with precheck)', async () => {
+      try {
+        await download(url, filePath, 60);
+        fail('Should throw EMSGSIZE');
+      } catch(err) {
+        expect(err.code).toBe('EMSGSIZE');
+        expect(await fileExists(filePath)).toBeFalsy();
+      }
+    });
+
+    test('file should exceed limit (no precheck)', async () => {
+      try {
+        await download(urlLarge, filePath, 600, false);
+        fail('Should throw EMSGSIZE');
+      } catch(err) {
+        expect(err.code).toBe('EMSGSIZE');
+        expect(await fileExists(filePath)).toBeFalsy();
+      }
+    });
+
+  })
 
 });

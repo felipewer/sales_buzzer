@@ -1,9 +1,7 @@
 const boom = require('boom');
 const express = require('express');
-const config = require('../../config');
-const notFound = require('./not_found');
 const sounds = require('./controller');
-const errorMapper = require('../../util/middleware/validation_error_mapper');
+const validationErrorMapper = require('../../util/middleware/validation_error_mapper');
 const {
   checkFileName,
   checkName,
@@ -23,7 +21,8 @@ router.get('/sounds', async (req, res, next) => {
 
 router.post(`/sounds`,
   express.json(),
-  [ checkName, checkUrl, errorMapper ],
+  [ checkName, checkUrl ],
+  validationErrorMapper,
   async (req, res, next) => {
     try {
       await sounds.add(req.body.soundName, req.body.url);
@@ -41,7 +40,8 @@ router.post(`/sounds`,
 
 
 router.get('/sounds/:soundName',
-  [checkFileName, errorMapper ], 
+  [ checkFileName ],
+  validationErrorMapper,
   async (req, res, next) => {
     try {
       await sounds.play(req.params.soundName);
@@ -54,7 +54,8 @@ router.get('/sounds/:soundName',
 );
 
 router.delete('/sounds/:soundName',
-  [checkFileName, errorMapper ], 
+  [ checkFileName ],
+  validationErrorMapper,
   async (req, res, next) => {
     try {
       await sounds.remove(req.params.soundName);
