@@ -7,7 +7,9 @@ const speak = (speech, callback) => {
   subProcess.on('error', callback);
   subProcess.on('close', code => {
     if (code !== 0) {
-      return callback(new Error(`spd-say exited with code ${code}`));
+      const error = new Error(`spd-say exited with code ${code}`);
+      error.code = code;
+      return callback(error);
     }
     callback(null);
   });

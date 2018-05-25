@@ -24,12 +24,12 @@ describe('sounds route', () => {
   });
 
   describe('list sounds', () => {
-    const file1Path = path.join(config.SOUNDS_FOLDER, 'test_file1.mp3');
-    const file2Path = path.join(config.SOUNDS_FOLDER, 'test_file2.mp3');
+    const file1Path = path.join(config.SOUNDS_FOLDER, 'test_sounds_file1.mp3');
+    const file2Path = path.join(config.SOUNDS_FOLDER, 'test_sounds_file2.mp3');
 
     beforeAll(async () => {
-      await fsWriteFile(file1Path, '');
-      await fsWriteFile(file2Path, '');
+      await fsWriteFile(file1Path, 'fake content');
+      await fsWriteFile(file2Path, 'fake content');
     });
 
     afterAll(async () => {
@@ -49,8 +49,8 @@ describe('sounds route', () => {
       expect(res.statusCode).toBe(200);
       expect(res.header['content-type'])
         .toEqual('application/json; charset=utf-8');
-      expect(res.body).toContain('test_file1.mp3');
-      expect(res.body).toContain('test_file2.mp3');
+      expect(res.body).toContain('test_sounds_file1.mp3');
+      expect(res.body).toContain('test_sounds_file2.mp3');
     });
 
   });
@@ -96,5 +96,95 @@ describe('sounds route', () => {
     });
 
   });
-  
+
+  describe('remove sound', () => {
+
+    test('It should not be authorized', async () => {
+      const res = await request(app)
+        .del('/api/sounds/sound.mp3');
+      expect(res.statusCode).toBe(401);
+    });
+
+    test('It should not pass validation', async () => {
+      const res = await request(app)
+        .del('/api/sounds/image.jpg')
+        .set({ Authorization: 'Bearer test_token' });
+      expect(res.statusCode).toBe(422);
+    });
+
+    test('Sound should not exist', async () => {
+      const res = await request(app)
+        .del('/api/sounds/sound.mp3')
+        .set({ Authorization: 'Bearer test_token' });
+      expect(res.statusCode).toBe(404);
+    });
+
+    describe('sound exists', () => {
+      const soundPath = path.join(config.SOUNDS_FOLDER, 'test_sound.mp3');
+
+      beforeAll(async () => {
+        await fsWriteFile(soundPath, 'fake content');
+      });
+
+      test('It should remove sound', async () => {
+        const res = await request(app)
+          .del('/api/sounds/test_sound.mp3')
+          .set({ Authorization: 'Bearer test_token' });
+        expect(res.statusCode).toBe(200);
+        expect(res.text).toEqual('');
+      });
+    
+    });
+    
+  });
+
+  describe('add sound', () => {
+    const soundPath = path.join(config.SOUNDS_FOLDER, 'test_sound.mp3');
+    const url = 'https://raw.githubusercontent.com/felipewer/mock-files/master/mock_100_bytes.mp3';
+
+    test('It should not be authorized', async () => {
+      const res = await request(app)
+        .post('/api/sounds')
+        .send({});
+      expect(res.statusCode).toBe(401);
+    });
+
+    test('It should not pass validation', async () => {
+      const res = await request(app)
+        .post('/api/sounds')
+        .send({ soundName: 'sound.mp3', url: 'invalid_url' })
+        .set({ Authorization: 'Bearer test_token' });
+      expect(res.statusCode).toBe(422);
+    });
+
+    test('It should add sound', async () => {
+      const res = await request(app)
+      .post('/api/sounds')
+      .send({ soundName: 'test_sound', url })
+      .set({ Authorization: 'Bearer test_token' });
+      expect(res.statusCode).toBe(201);
+      expect(res.text).toEqual('');
+    });
+
+    afterAll(async () => {
+      await fsUnlink(soundPath);
+    });
+
+    describe.only('sound exists', () => {
+      
+      beforeAll(async () => {
+        await fsWriteFile(soundPath, 'fake content');
+      });
+      
+      test('Sound should already exist', async () => {
+        const res = await request(app)
+          .post('/api/sounds')
+          .send({ soundName: 'test_sound', url })
+          .set({ Authorization: 'Bearer test_token' });
+        expect(res.statusCode).toBe(409);
+      });
+    
+    });
+    
+  });
 });

@@ -11,13 +11,17 @@
   "author": "Felipe Carlos Werlang",
   "license": "ISC",
   "jest": {
-    "roots": [ "src", "tests" ],
+    "roots": [
+      "src",
+      "tests"
+    ],
     "collectCoverage": false,
     "collectCoverageFrom": [
       "**/*.{js}"
     ]
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "body-parser": "^1.18.1",
     "boom": "^7.2.0",
     "dotenv": "^4.0.0",

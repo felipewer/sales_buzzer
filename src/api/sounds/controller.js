@@ -2,16 +2,15 @@ const fs = require('fs');
 const path = require('path');
 const URL = require('url').URL;
 const util = require('util');
-const player = require('./player');
 const request = require('request');
-const { Observable } = require('rxjs/Rx');
+const { download, getContentLength } = require('./downloader');
+const player = require('./player');
 const config = require('../../config')
 const { fsErrorHandler } = require('../../util/fs_error_handler');
 
-const fsOpen = Observable.bindNodeCallback(fs.open);
-const fsUnlink = Observable.bindNodeCallback(fs.unlink);
-
+const fsOpen = util.promisify(fs.open);
 const fsReaddir = util.promisify(fs.readdir);
+const fsUnlink = util.promisify(fs.unlink);
 const play = util.promisify(player.play);
 
 exports.list = () => {
@@ -20,33 +19,27 @@ exports.list = () => {
 }
 
 exports.play = (soundName) => {
-  const soundPath = path.join(config.SOUNDS_FOLDER, soundName)
+  const soundPath = path.join(config.SOUNDS_FOLDER, soundName);
   return play(soundPath);
 }
 
-exports.addSound = (req, res) => {
-  const {soundName, url} = req.body
+
+exports.add = async (soundName, url) => {
   const soundUrl = new URL(url);
   const extname = path.extname(soundUrl.pathname).substring(1);
   const soundPath = path.join(config.SOUNDS_FOLDER, `${soundName}.${extname}`);
-  // TODO - remove file on request error
-  fsOpen(soundPath, 'wx')
-    .subscribe(
-      fd => {
-        request(url)
-          .on('error', err => res.status(400).send())
-          .on('response', resp => res.status(201).send())  
-          .pipe(fs.createWriteStream('', { fd }))
-      },  
-      fsErrorHandler(res)
-    );  
+  const maxSize = 1e+7; // 10 MB
+  
+  const fileSize = await getContentLength(url);
+  if (fileSize > maxSize) {
+    const error = new Error('Size limit exeeded');
+    error.code = 'EMSGSIZE';
+    throw error;
+  }
+  return download(url, soundPath, maxSize);
 }
 
-
-exports.removeSound = (req, res) => {
-  const soundPath = path.join(config.SOUNDS_FOLDER, req.params.soundName)
-  fsUnlink(soundPath).subscribe(
-    () => res.status(200).send(),
-    fsErrorHandler(res)
-  )
+exports.remove = (soundName) => {
+  const soundPath = path.join(config.SOUNDS_FOLDER, soundName);
+  return fsUnlink(soundPath);
 }
