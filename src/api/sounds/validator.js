@@ -12,7 +12,7 @@ const checkUrl =
   check('url', 'Supported file extensions are wav and mp3')
     .exists()
     .isURL()
-    .matches(/^.*?\/\w+?\.(wav|mp3)$/);
+    .matches(/^.*?\/.+?\.(wav|mp3)$/);
 
 checkFileName =
   check('soundName', 'Invalid identifier')
