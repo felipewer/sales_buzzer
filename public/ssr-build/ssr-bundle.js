@@ -4832,6 +4832,10 @@ var AddSound_AddSound = function (_Component) {
 }(preact_min["Component"]);
 
 
+// EXTERNAL MODULE: ../node_modules/@fortawesome/fontawesome-free-solid/faLink.js
+var faLink = __webpack_require__("OKRy");
+var faLink_default = /*#__PURE__*/__webpack_require__.n(faLink);
+
 // EXTERNAL MODULE: ../node_modules/@fortawesome/fontawesome-free-solid/faPlay.js
 var faPlay = __webpack_require__("vie6");
 var faPlay_default = /*#__PURE__*/__webpack_require__.n(faPlay);
@@ -4839,6 +4843,76 @@ var faPlay_default = /*#__PURE__*/__webpack_require__.n(faPlay);
 // EXTERNAL MODULE: ../node_modules/@fortawesome/fontawesome-free-solid/faTrashAlt.js
 var faTrashAlt = __webpack_require__("XNXn");
 var faTrashAlt_default = /*#__PURE__*/__webpack_require__.n(faTrashAlt);
+
+// CONCATENATED MODULE: ./components/app/home/sound/SoundAddress.js
+
+
+function SoundAddress__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function SoundAddress__possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function SoundAddress__inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+var SoundAddress__ref = Object(preact_min["h"])('div', { 'class': 'modal-background' });
+
+var SoundAddress_SoundAddress = function (_Component) {
+  SoundAddress__inherits(SoundAddress, _Component);
+
+  function SoundAddress(props) {
+    SoundAddress__classCallCheck(this, SoundAddress);
+
+    var _this = SoundAddress__possibleConstructorReturn(this, _Component.call(this, props));
+
+    _this.state = { url: '', visible: false };
+    _this.hide = _this.hide.bind(_this);
+    _this.show = _this.show.bind(_this);
+    return _this;
+  }
+
+  SoundAddress.prototype.componentDidMount = function componentDidMount() {
+    event_emitter.on('DISPLAY_SOUND_ADDRESS', this.show);
+  };
+
+  SoundAddress.prototype.componentWillUnmount = function componentWillUnmount() {
+    event_emitter.off('DISPLAY_SOUND_ADDRESS', this.show);
+  };
+
+  SoundAddress.prototype.show = function show(url) {
+    this.setState({ url: url, visible: true });
+  };
+
+  SoundAddress.prototype.hide = function hide() {
+    if (this.state.visible) {
+      this.setState({ url: '', visible: false });
+    }
+  };
+
+  SoundAddress.prototype.render = function render(props, state) {
+    if (!state.visible) return null;
+    return Object(preact_min["h"])(
+      'div',
+      { 'class': 'modal is-active' },
+      SoundAddress__ref,
+      Object(preact_min["h"])(
+        'div',
+        { 'class': 'modal-content' },
+        Object(preact_min["h"])(
+          'div',
+          { 'class': 'notification' },
+          state.url
+        )
+      ),
+      Object(preact_min["h"])('button', { 'class': 'modal-close is-large', 'aria-label': 'close',
+        onClick: this.hide })
+    );
+  };
+
+  return SoundAddress;
+}(preact_min["Component"]);
+
 
 // CONCATENATED MODULE: ./components/app/home/sound/SoundsList.js
 
@@ -4855,6 +4929,9 @@ function SoundsList__inherits(subClass, superClass) { if (typeof superClass !== 
 
 
 
+
+
+
 var SoundsList__ref = Object(preact_min["h"])(
 	'span',
 	{ 'class': 'icon' },
@@ -4864,8 +4941,16 @@ var SoundsList__ref = Object(preact_min["h"])(
 var SoundsList__ref2 = Object(preact_min["h"])(
 	'span',
 	{ 'class': 'icon' },
+	Object(preact_min["h"])(react_fontawesome_index_es, { icon: faLink_default.a })
+);
+
+var SoundsList__ref3 = Object(preact_min["h"])(
+	'span',
+	{ 'class': 'icon' },
 	Object(preact_min["h"])(react_fontawesome_index_es, { icon: faTrashAlt_default.a })
 );
+
+var SoundsList__ref4 = Object(preact_min["h"])(SoundAddress_SoundAddress, null);
 
 var SoundsList_SoundsList = function (_Component) {
 	SoundsList__inherits(SoundsList, _Component);
@@ -4883,8 +4968,15 @@ var SoundsList_SoundsList = function (_Component) {
 			return _this.props.remove(e.currentTarget.value);
 		};
 
+		_this.showAddress = function (e) {
+			var url = window.location.origin + '/api/sounds/' + e.currentTarget.value;
+			event_emitter.emit('DISPLAY_SOUND_ADDRESS', url);
+		};
+
+		_this.state = { soundAddress: null };
 		_this.play = _this.play.bind(_this);
 		_this.remove = _this.remove.bind(_this);
+		_this.showAddress = _this.showAddress.bind(_this);
 		return _this;
 	}
 
@@ -4892,46 +4984,62 @@ var SoundsList_SoundsList = function (_Component) {
 		var _this2 = this;
 
 		return Object(preact_min["h"])(
-			'table',
-			{ 'class': 'table is-striped is-hoverable is-fullwidth' },
+			'div',
+			null,
 			Object(preact_min["h"])(
-				'tbody',
-				null,
-				props.sounds.map(function (sound) {
-					return Object(preact_min["h"])(
-						'tr',
-						null,
-						Object(preact_min["h"])(
-							'td',
+				'table',
+				{ 'class': 'table is-striped is-hoverable is-fullwidth' },
+				Object(preact_min["h"])(
+					'tbody',
+					null,
+					props.sounds.map(function (sound) {
+						return Object(preact_min["h"])(
+							'tr',
 							null,
-							sound
-						),
-						Object(preact_min["h"])(
-							'td',
-							{ 'class': 'has-text-right', style: 'width: 30px;' },
 							Object(preact_min["h"])(
-								'button',
-								{
-									'class': 'button is-secondary is-small',
-									value: sound,
-									onClick: _this2.play },
-								SoundsList__ref
-							)
-						),
-						Object(preact_min["h"])(
-							'td',
-							{ 'class': 'has-text-right', style: 'width: 30px;' },
+								'td',
+								null,
+								sound
+							),
 							Object(preact_min["h"])(
-								'button',
-								{ 'class': 'button is-danger is-small',
-									value: sound,
-									onClick: _this2.remove },
-								SoundsList__ref2
+								'td',
+								{ 'class': 'has-text-right', style: 'width: 30px;' },
+								Object(preact_min["h"])(
+									'button',
+									{
+										'class': 'button is-secondary is-small',
+										value: sound,
+										onClick: _this2.play },
+									SoundsList__ref
+								)
+							),
+							Object(preact_min["h"])(
+								'td',
+								{ 'class': 'has-text-right', style: 'width: 30px;' },
+								Object(preact_min["h"])(
+									'button',
+									{ 'class': 'button is-info is-small',
+										value: sound,
+										onClick: _this2.showAddress },
+									SoundsList__ref2
+								)
+							),
+							Object(preact_min["h"])(
+								'td',
+								{ 'class': 'has-text-right', style: 'width: 30px;' },
+								Object(preact_min["h"])(
+									'button',
+									{ 'class': 'button is-danger is-small',
+										value: sound,
+										onClick: _this2.remove },
+									SoundsList__ref3
+								)
 							)
-						)
-					);
-				})
-			)
+						);
+					})
+				)
+			),
+			SoundsList__ref4
 		);
 	};
 
@@ -5909,6 +6017,13 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
     }
   });
 };
+
+/***/ }),
+
+/***/ "OKRy":
+/***/ (function(module, exports) {
+
+module.exports = { prefix: 'fas', iconName: 'link', icon: [512, 512, [], "f0c1", "M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"] };
 
 /***/ }),
 
