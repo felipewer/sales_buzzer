@@ -1,11 +1,39 @@
 version: '3'
 
 services:
-  sales_buzzer:
-    build: .
-    working_dir: /usr/local/sales_buzzer
-    command: npm start
-    ports:
-      - '80:8080'
+  
+  buzzer:
+    build:
+      context: .
+      args:
+        - BUZZER_BASE_IMG
+        - APP_PORT
+    environment:
+      - APP_NAME
+      - APP_PORT
+      - APP_URL
+      - AUTHORIZED_ORGS
+      - GITHUB_OAUTH_CLIENT_ID
+      - GITHUB_OAUTH_CLIENT_SECRET
+      - OAUTH_TOKEN_MAX_AGE
+      - NODE_ENV
     devices:
-      - '/dev/snd'
+      - /dev/snd
+    # ports:
+    #   - 80:${APP_PORT}
+
+  tunnel:
+    image: ${BUZZER_BASE_IMG}
+    command: >
+      ssh -i .ssh/buzzer_id -N
+      -o StrictHostKeyChecking=no 
+      -o ExitOnForwardFailure=yes 
+      -o ServerAliveInterval=300 
+      -o ConnectTimeout=5 
+      -g -R 8080:buzzer:${APP_PORT} 
+      -p 2222 
+      tunnel@${APP_DOMAIN_NAME}
+    volumes:
+      - .ssh:.ssh
+    depends_on:
+      - buzzer

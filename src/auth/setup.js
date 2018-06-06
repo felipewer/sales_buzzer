@@ -7,7 +7,7 @@ const verifier = require('./verifier');
 const oauthOptions = {
   clientID: config.GITHUB_OAUTH_CLIENT_ID,
   clientSecret: config.GITHUB_OAUTH_CLIENT_SECRET,
-  callbackURL: `${config.OAUTH_CALLBACK_URL}/auth/github/callback`
+  callbackURL: `${config.APP_URL}/auth/github/callback`
 }
 
 passport.use(new GitHubStrategy(

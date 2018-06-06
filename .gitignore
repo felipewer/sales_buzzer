@@ -3,5 +3,4 @@
 npm-debug.log
 .env
 /.vscode/
-/public/
 /coverage/

@@ -25,6 +25,7 @@
     "jest": "^21.2.1",
     "node-sass": "^4.8.3",
     "preact-cli": "^2.1.0",
+    "preact-cli-sw-precache": "^1.0.3",
     "preact-render-spy": "^1.2.1",
     "sass-loader": "^7.0.1"
   },

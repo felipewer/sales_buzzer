@@ -1,18 +1,22 @@
-FROM node:8.5
+ARG BUZZER_BASE_IMAGE
+ARG APP_PORT=8080
+
+FROM $BUZZER_BASE_IMAGE
 
 RUN apt-get update && apt-get -y --no-install-recommends install \
     sox \
     libsox-fmt-all \
-    speech-dispatcher \
+    espeak \
     && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /usr/local/sales_buzzer/
+WORKDIR /usr/src/app/
 
 COPY src ./src/
+COPY public ./public/
 COPY package.json ./
 
-RUN yarn install
+RUN npm install --production
 
-EXPOSE 8080
+EXPOSE $APP_PORT
 
-CMD ["npm", "start"]
+CMD ["node", "src/server.js"]
