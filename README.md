@@ -45,5 +45,6 @@ To run only the app service uncomment the *ports* mapping of the **buzzer** serv
 
 ```
 # Use the -d parameter to run in detached mode
+docker-compose build
 docker-compose start buzzer
 ```

@@ -1,7 +1,7 @@
 ARG BUZZER_BASE_IMG
-ARG APP_PORT=8080
-
 FROM $BUZZER_BASE_IMG
+
+ARG APP_PORT=8080
 
 RUN apt-get update && apt-get -y --no-install-recommends install \
     sox \

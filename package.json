@@ -1,7 +1,8 @@
 {
   "name": "startup_buzzer",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "",
+  "repository": "github:felipewer/startup_buzzer",
   "scripts": {
     "start": "nodemon --trace-warnings src/server.js",
     "test": "jest",

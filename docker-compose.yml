@@ -3,6 +3,7 @@ version: '3'
 services:
   
   buzzer:
+    restart: always
     build:
       context: .
       args:
@@ -23,9 +24,10 @@ services:
     #   - 80:${APP_PORT}
 
   tunnel:
+    restart: always
     image: ${BUZZER_BASE_IMG}
     command: >
-      ssh -i .ssh/buzzer_id -N
+      ssh -i /root/.ssh/buzzer_id -N
       -o StrictHostKeyChecking=no 
       -o ExitOnForwardFailure=yes 
       -o ServerAliveInterval=300 
@@ -34,6 +36,6 @@ services:
       -p 2222 
       tunnel@${APP_DOMAIN_NAME}
     volumes:
-      - .ssh:.ssh
+      - .ssh:/root/.ssh
     depends_on:
       - buzzer
