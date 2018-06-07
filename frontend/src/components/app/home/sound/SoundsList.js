@@ -5,7 +5,6 @@ import faPlay from '@fortawesome/fontawesome-free-solid/faPlay';
 import faMusic from '@fortawesome/fontawesome-free-solid/faMusic';
 import faTrashAlt from '@fortawesome/fontawesome-free-solid/faTrashAlt';
 import emitter from '../../../../services/event_emitter';
-import SoundAddress from './SoundAddress';
 
 export default class SoundsList extends Component {
 
@@ -15,7 +14,7 @@ export default class SoundsList extends Component {
 	
 	showAddress = e => {
 		const url = `${window.location.origin}/api/sounds/${e.currentTarget.value}`;
-		emitter.emit('DISPLAY_SOUND_ADDRESS', url);
+		emitter.emit('DISPLAY_MESSAGE', url);
 	}
 
   constructor(props) {
@@ -68,7 +67,6 @@ export default class SoundsList extends Component {
 						))}
 					</tbody>
 				</table>
-				<SoundAddress />
 			</div>
   	);
   }

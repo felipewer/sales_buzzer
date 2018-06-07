@@ -1034,6 +1034,13 @@ module.exports = function isAbsoluteURL(url) {
 
 /***/ }),
 
+/***/ "8A/K":
+/***/ (function(module, exports) {
+
+module.exports = { prefix: 'fas', iconName: 'key', icon: [512, 512, [], "f084", "M512 176.001C512 273.203 433.202 352 336 352c-11.22 0-22.19-1.062-32.827-3.069l-24.012 27.014A23.999 23.999 0 0 1 261.223 384H224v40c0 13.255-10.745 24-24 24h-40v40c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24v-78.059c0-6.365 2.529-12.47 7.029-16.971l161.802-161.802C163.108 213.814 160 195.271 160 176 160 78.798 238.797.001 335.999 0 433.488-.001 512 78.511 512 176.001zM336 128c0 26.51 21.49 48 48 48s48-21.49 48-48-21.49-48-48-48-48 21.49-48 48z"] };
+
+/***/ }),
+
 /***/ "8NLT":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1680,7 +1687,7 @@ var Header_Header = function (_Component) {
 						_ref4
 					)
 				),
-				Object(preact_min["h"])(
+				props.loggedIn && Object(preact_min["h"])(
 					'div',
 					{ 'class': 'navbar-menu ' + isActive },
 					Object(preact_min["h"])(
@@ -4844,76 +4851,6 @@ var faPlay_default = /*#__PURE__*/__webpack_require__.n(faPlay);
 var faTrashAlt = __webpack_require__("XNXn");
 var faTrashAlt_default = /*#__PURE__*/__webpack_require__.n(faTrashAlt);
 
-// CONCATENATED MODULE: ./components/app/home/sound/SoundAddress.js
-
-
-function SoundAddress__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function SoundAddress__possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function SoundAddress__inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-
-var SoundAddress__ref = Object(preact_min["h"])('div', { 'class': 'modal-background' });
-
-var SoundAddress_SoundAddress = function (_Component) {
-  SoundAddress__inherits(SoundAddress, _Component);
-
-  function SoundAddress(props) {
-    SoundAddress__classCallCheck(this, SoundAddress);
-
-    var _this = SoundAddress__possibleConstructorReturn(this, _Component.call(this, props));
-
-    _this.state = { url: '', visible: false };
-    _this.hide = _this.hide.bind(_this);
-    _this.show = _this.show.bind(_this);
-    return _this;
-  }
-
-  SoundAddress.prototype.componentDidMount = function componentDidMount() {
-    event_emitter.on('DISPLAY_SOUND_ADDRESS', this.show);
-  };
-
-  SoundAddress.prototype.componentWillUnmount = function componentWillUnmount() {
-    event_emitter.off('DISPLAY_SOUND_ADDRESS', this.show);
-  };
-
-  SoundAddress.prototype.show = function show(url) {
-    this.setState({ url: url, visible: true });
-  };
-
-  SoundAddress.prototype.hide = function hide() {
-    if (this.state.visible) {
-      this.setState({ url: '', visible: false });
-    }
-  };
-
-  SoundAddress.prototype.render = function render(props, state) {
-    if (!state.visible) return null;
-    return Object(preact_min["h"])(
-      'div',
-      { 'class': 'modal is-active' },
-      SoundAddress__ref,
-      Object(preact_min["h"])(
-        'div',
-        { 'class': 'modal-content' },
-        Object(preact_min["h"])(
-          'div',
-          { 'class': 'notification' },
-          state.url
-        )
-      ),
-      Object(preact_min["h"])('button', { 'class': 'modal-close is-large', 'aria-label': 'close',
-        onClick: this.hide })
-    );
-  };
-
-  return SoundAddress;
-}(preact_min["Component"]);
-
-
 // CONCATENATED MODULE: ./components/app/home/sound/SoundsList.js
 
 
@@ -4922,7 +4859,6 @@ function SoundsList__classCallCheck(instance, Constructor) { if (!(instance inst
 function SoundsList__possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function SoundsList__inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
 
 
 
@@ -4950,8 +4886,6 @@ var SoundsList__ref3 = Object(preact_min["h"])(
 	Object(preact_min["h"])(react_fontawesome_index_es, { icon: faTrashAlt_default.a })
 );
 
-var SoundsList__ref4 = Object(preact_min["h"])(SoundAddress_SoundAddress, null);
-
 var SoundsList_SoundsList = function (_Component) {
 	SoundsList__inherits(SoundsList, _Component);
 
@@ -4970,7 +4904,7 @@ var SoundsList_SoundsList = function (_Component) {
 
 		_this.showAddress = function (e) {
 			var url = window.location.origin + '/api/sounds/' + e.currentTarget.value;
-			event_emitter.emit('DISPLAY_SOUND_ADDRESS', url);
+			event_emitter.emit('DISPLAY_MESSAGE', url);
 		};
 
 		_this.state = { soundAddress: null };
@@ -5038,8 +4972,7 @@ var SoundsList_SoundsList = function (_Component) {
 						);
 					})
 				)
-			),
-			SoundsList__ref4
+			)
 		);
 	};
 
@@ -5132,6 +5065,72 @@ var Speak_Speak = function (_Component) {
 }(preact_min["Component"]);
 
 
+// EXTERNAL MODULE: ../node_modules/@fortawesome/fontawesome-free-solid/faKey.js
+var faKey = __webpack_require__("8A/K");
+var faKey_default = /*#__PURE__*/__webpack_require__.n(faKey);
+
+// CONCATENATED MODULE: ./components/app/home/token/GenerateToken.js
+
+
+function GenerateToken__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function GenerateToken__possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function GenerateToken__inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+var GenerateToken__ref = Object(preact_min["h"])(
+  'span',
+  { 'class': 'icon' },
+  Object(preact_min["h"])(react_fontawesome_index_es, { icon: faKey_default.a })
+);
+
+var GenerateToken__ref2 = Object(preact_min["h"])(
+  'span',
+  null,
+  'Generate'
+);
+
+var GenerateToken_Speak = function (_Component) {
+  GenerateToken__inherits(Speak, _Component);
+
+  function Speak(props) {
+    GenerateToken__classCallCheck(this, Speak);
+
+    var _this = GenerateToken__possibleConstructorReturn(this, _Component.call(this, props));
+
+    _this.state = { generating: false };
+    _this.generate = _this.generate.bind(_this);
+    return _this;
+  }
+
+  Speak.prototype.generate = function generate() {
+    var _this2 = this;
+
+    this.setState({ generating: true });
+    this.props.onGenerate().then(function () {
+      return _this2.setState({ generating: false });
+    });
+  };
+
+  Speak.prototype.render = function render(props, state) {
+    var isLoading = state.generating ? 'is-loading' : '';
+    return Object(preact_min["h"])(
+      'a',
+      { 'class': 'button is-medium is-danger is-flex ' + isLoading,
+        onClick: this.generate },
+      GenerateToken__ref,
+      GenerateToken__ref2
+    );
+  };
+
+  return Speak;
+}(preact_min["Component"]);
+
+
 // EXTERNAL MODULE: ../node_modules/axios/index.js
 var axios = __webpack_require__("dZBD");
 var axios_default = /*#__PURE__*/__webpack_require__.n(axios);
@@ -5177,6 +5176,12 @@ var api_removeSound = function removeSound(sound) {
 var api_speak = function speak(speech) {
 	return Object(axios["post"])('/api/speech', { speech: speech }, { headers: api_headers() }).catch(api_unauthorized);
 };
+
+var api_generateToken = function generateToken() {
+	return Object(axios["post"])('/api/tokens', null, { headers: api_headers() }).then(function (response) {
+		return response.data;
+	}).catch(api_unauthorized);
+};
 // CONCATENATED MODULE: ./components/app/Home.js
 
 
@@ -5193,19 +5198,26 @@ function Home__inherits(subClass, superClass) { if (typeof superClass !== "funct
 
 
 
+
 var Home__ref = Object(preact_min["h"])(
 	'h1',
 	{ 'class': 'subtitle has-text-centered' },
-	'Speech'
+	'API Token'
 );
 
 var Home__ref2 = Object(preact_min["h"])(
 	'h1',
 	{ 'class': 'subtitle has-text-centered' },
+	'Speech'
+);
+
+var Home__ref3 = Object(preact_min["h"])(
+	'h1',
+	{ 'class': 'subtitle has-text-centered' },
 	'Sounds'
 );
 
-var Home__ref3 = Object(preact_min["h"])('hr', null);
+var Home__ref4 = Object(preact_min["h"])('hr', null);
 
 var Home_Home = function (_Component) {
 	Home__inherits(Home, _Component);
@@ -5220,6 +5232,7 @@ var Home_Home = function (_Component) {
 		_this.handlePlaySound = _this.handlePlaySound.bind(_this);
 		_this.handleRemove = _this.handleRemove.bind(_this);
 		_this.handleSpeak = _this.handleSpeak.bind(_this);
+		_this.handleGenerateToken = _this.handleGenerateToken.bind(_this);
 		return _this;
 	}
 
@@ -5269,6 +5282,14 @@ var Home_Home = function (_Component) {
 		});
 	};
 
+	Home.prototype.handleGenerateToken = function handleGenerateToken() {
+		return api_generateToken().then(function (token) {
+			event_emitter.emit('DISPLAY_MESSAGE', 'API Token: ' + token);
+		}).catch(function (error) {
+			event_emitter.emit('DISPLAY_ERROR', 'Could not generate API token');
+		});
+	};
+
 	Home.prototype.render = function render(props, state) {
 		return Object(preact_min["h"])(
 			'article',
@@ -5283,7 +5304,7 @@ var Home_Home = function (_Component) {
 						'div',
 						{ 'class': 'box' },
 						Home__ref,
-						Object(preact_min["h"])(Speak_Speak, { onSpeak: this.handleSpeak })
+						Object(preact_min["h"])(GenerateToken_Speak, { onGenerate: this.handleGenerateToken })
 					)
 				)
 			),
@@ -5297,8 +5318,22 @@ var Home_Home = function (_Component) {
 						'div',
 						{ 'class': 'box' },
 						Home__ref2,
-						Object(preact_min["h"])(AddSound_AddSound, { onAddSound: this.handleAddSound }),
+						Object(preact_min["h"])(Speak_Speak, { onSpeak: this.handleSpeak })
+					)
+				)
+			),
+			Object(preact_min["h"])(
+				'section',
+				{ 'class': 'section' },
+				Object(preact_min["h"])(
+					'div',
+					{ 'class': 'container' },
+					Object(preact_min["h"])(
+						'div',
+						{ 'class': 'box' },
 						Home__ref3,
+						Object(preact_min["h"])(AddSound_AddSound, { onAddSound: this.handleAddSound }),
+						Home__ref4,
 						Object(preact_min["h"])(SoundsList_SoundsList, { sounds: state.sounds,
 							play: this.handlePlaySound,
 							remove: this.handleRemove })
@@ -5490,6 +5525,76 @@ var Notification_Notification = function (_Component) {
 }(preact_min["Component"]);
 
 
+// CONCATENATED MODULE: ./components/app/Message.js
+
+
+function Message__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function Message__possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function Message__inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+var Message__ref = Object(preact_min["h"])('div', { 'class': 'modal-background' });
+
+var Message_Message = function (_Component) {
+  Message__inherits(Message, _Component);
+
+  function Message(props) {
+    Message__classCallCheck(this, Message);
+
+    var _this = Message__possibleConstructorReturn(this, _Component.call(this, props));
+
+    _this.state = { msg: '', visible: false };
+    _this.hide = _this.hide.bind(_this);
+    _this.show = _this.show.bind(_this);
+    return _this;
+  }
+
+  Message.prototype.componentDidMount = function componentDidMount() {
+    event_emitter.on('DISPLAY_MESSAGE', this.show);
+  };
+
+  Message.prototype.componentWillUnmount = function componentWillUnmount() {
+    event_emitter.off('DISPLAY_MESSAGE', this.show);
+  };
+
+  Message.prototype.show = function show(msg) {
+    this.setState({ msg: msg, visible: true });
+  };
+
+  Message.prototype.hide = function hide() {
+    if (this.state.visible) {
+      this.setState({ msg: '', visible: false });
+    }
+  };
+
+  Message.prototype.render = function render(props, state) {
+    if (!state.visible) return null;
+    return Object(preact_min["h"])(
+      'div',
+      { 'class': 'modal is-active' },
+      Message__ref,
+      Object(preact_min["h"])(
+        'div',
+        { 'class': 'modal-content' },
+        Object(preact_min["h"])(
+          'div',
+          { 'class': 'notification' },
+          state.msg
+        )
+      ),
+      Object(preact_min["h"])('button', { 'class': 'modal-close is-large', 'aria-label': 'close',
+        onClick: this.hide })
+    );
+  };
+
+  return Message;
+}(preact_min["Component"]);
+
+
 // CONCATENATED MODULE: ./components/App.js
 
 
@@ -5498,6 +5603,7 @@ function App__classCallCheck(instance, Constructor) { if (!(instance instanceof 
 function App__possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function App__inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 
 
 
@@ -5522,7 +5628,9 @@ var App__ref2 = Object(preact_min["h"])(Home_Home, null);
 
 var App__ref3 = Object(preact_min["h"])(Login_Login, { path: '/login' });
 
-var App__ref4 = Object(preact_min["h"])(Notification_Notification, { duration: '4000' });
+var App__ref4 = Object(preact_min["h"])(Message_Message, null);
+
+var _ref5 = Object(preact_min["h"])(Notification_Notification, { duration: '4000' });
 
 var App_App = function (_Component) {
 	App__inherits(App, _Component);
@@ -5573,6 +5681,7 @@ var App_App = function (_Component) {
 
 	App.prototype.logOut = function logOut() {
 		auth_default.a.logOut();
+		this.setState({ loggedIn: false });
 		Object(preact_router_es["route"])('/login', true);
 	};
 
@@ -5594,7 +5703,8 @@ var App_App = function (_Component) {
 				),
 				App__ref3
 			),
-			App__ref4
+			App__ref4,
+			_ref5
 		);
 	};
 

@@ -40,14 +40,16 @@ export default class Header extends Component {
 							<span aria-hidden="true"></span>
 						</a>
 					</div>
-					<div class={`navbar-menu ${isActive}`}>
-						<div class="navbar-end">
-							<a class="navbar-item"
-								onClick={this.logOut}>
-								Logout
-							</a>
+					{ props.loggedIn && (
+						<div class={`navbar-menu ${isActive}`}>
+							<div class="navbar-end">
+								<a class="navbar-item"
+									onClick={this.logOut}>
+									Logout
+								</a>
+							</div>
 						</div>
-					</div>
+					)}
 				</nav>
 			</header>
 		);

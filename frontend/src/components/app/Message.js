@@ -1,30 +1,30 @@
 import { h, Component } from 'preact';
-import emitter from '../../../../services/event_emitter';
+import emitter from '../../services/event_emitter';
 
-export default class SoundAddress extends Component {
+export default class Message extends Component {
 
   constructor(props) {
   	super(props);
-  	this.state = { url: '', visible: false };
+  	this.state = { msg: '', visible: false };
 		this.hide = this.hide.bind(this);
 		this.show = this.show.bind(this);
   }
 
   componentDidMount(){
-    emitter.on('DISPLAY_SOUND_ADDRESS', this.show);
+    emitter.on('DISPLAY_MESSAGE', this.show);
   }
 
   componentWillUnmount() {
-    emitter.off('DISPLAY_SOUND_ADDRESS', this.show);
+    emitter.off('DISPLAY_MESSAGE', this.show);
   }
 
-  show(url) {
-    this.setState({ url, visible: true });
+  show(msg) {
+    this.setState({ msg, visible: true });
   }
 
   hide() {
     if (this.state.visible) {
-      this.setState({ url: '', visible: false });
+      this.setState({ msg: '', visible: false });
     }
   }
 
@@ -35,7 +35,7 @@ export default class SoundAddress extends Component {
         <div class="modal-background"></div>
         <div class="modal-content">
           <div class="notification">
-            {state.url}
+            {state.msg}
           </div>
         </div>
         <button class="modal-close is-large" aria-label="close"

@@ -3,12 +3,14 @@ import emitter from '../../services/event_emitter';
 import AddSound from './home/sound/AddSound';
 import SoundsList from './home/sound/SoundsList';
 import Speak from './home/speech/Speak';
+import GenerateToken from './home/token/GenerateToken';
 import {
 	addSound,
 	listSounds,
 	playSound,
 	removeSound,
-	speak
+	speak,
+	generateToken
 } from '../../services/api';
 
 
@@ -21,6 +23,7 @@ export default class Home extends Component {
   	this.handlePlaySound = this.handlePlaySound.bind(this);
   	this.handleRemove = this.handleRemove.bind(this);
   	this.handleSpeak = this.handleSpeak.bind(this);
+  	this.handleGenerateToken = this.handleGenerateToken.bind(this);
   }
 
 	componentDidMount(){
@@ -64,9 +67,27 @@ export default class Home extends Component {
 			});
 	}
 
+	handleGenerateToken() {
+		return generateToken()
+			.then(token => {
+				emitter.emit('DISPLAY_MESSAGE', `API Token: ${token}`)
+			})
+			.catch(error => {
+				emitter.emit('DISPLAY_ERROR', 'Could not generate API token');
+			});
+	}
+
 	render(props, state) {
 		return (
 			<article>
+				<section class="section">
+					<div class="container">
+						<div class="box">
+							<h1 class="subtitle has-text-centered">API Token</h1>
+							<GenerateToken onGenerate={this.handleGenerateToken} />
+						</div>
+					</div>
+				</section>
 				<section class="section">
 					<div class="container">
 						<div class="box">

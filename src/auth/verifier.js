@@ -1,29 +1,20 @@
-const fs = require('fs');
-const path = require('path');
 const request = require('request');
-const { Observable } = require('rxjs/Rx');
 const { intersect } = require('../util/intersect');
+const tokens = require('./tokens');
 
-const fsWriteFile = Observable.bindNodeCallback(fs.writeFile);
-const fsStat = Observable.bindNodeCallback(fs.stat);
 
-const saveToken = (basePath, accessToken) => {
-  const tokenPath = path.join(basePath, accessToken);
-  return fsWriteFile(tokenPath, '');
+const validateToken = async (token) => {
+  try {
+    const ttl = await tokens.get(token);
+    return (ttl > Date.now());
+  } catch(err) {
+    if (err.code !== 'ENOENT') throw err;
+    return false;
+  }
 }
 
-const validateToken = (basePath, maxAge, token) => {
-  const tokenPath = path.join(basePath, token);
-  return fsStat(tokenPath)
-    .map(({ birthtimeMs }) => (Date.now() - birthtimeMs))
-    .map(age => (age < maxAge))
-    .catch(err => {
-      if (err.code !== 'ENOENT') console.error(err);
-      return Observable.of(false);
-    });
-}
 
-const github = (appName, authorizedOrgs, tokensFolder) => 
+const github = (appName, authorizedOrgs, tokenMaxAge) => 
   (accessToken, refreshToken, profile, cb) => {
     const reqOptions = {
       url: 'https://api.github.com/user/orgs',
@@ -44,23 +35,22 @@ const github = (appName, authorizedOrgs, tokensFolder) =>
         return cb(null, false, { message });
       }
 
-      saveToken(tokensFolder, accessToken)
-      .subscribe(
-        () => cb(null, { accessToken }),
-        err => {
+      const ttl = Date.now() + tokenMaxAge;
+      tokens.put(accessToken, ttl)
+        .then(() => cb(null, { accessToken }))
+        .catch(err => {
           console.error(err);
           cb('Server error', null);
-        }
-      );
+        });
     });
   }
 
-const bearer = (tokensFolder, tokenMaxAge) =>
-  (token, cb) => {
+const bearer = () => (token, cb) => {
     if (!token) return cb(null, false);
 
-    validateToken(tokensFolder, tokenMaxAge, token)
-      .subscribe(valid => cb(null, (valid ? {} : false)));
+    validateToken(token).then(valid => {
+      cb(null, (valid ? {} : false))
+    });
   }
 
 module.exports = { github, bearer }

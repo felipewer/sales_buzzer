@@ -36,3 +36,10 @@ export const speak = (speech) =>
 		{ speech },
 		{ headers: headers() }
 	).catch(unauthorized);
+
+export const generateToken = () =>
+	post('/api/tokens',
+		null,
+		{ headers: headers() }
+	).then(response => response.data)
+	.catch(unauthorized);

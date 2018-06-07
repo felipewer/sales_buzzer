@@ -15,16 +15,11 @@ passport.use(new GitHubStrategy(
   verifier.github(
     config.APP_NAME,
     config.AUTHORIZED_ORGS,
-    config.TOKENS_FOLDER
-  )
-));
-
-passport.use(new BearerStrategy(
-  verifier.bearer(
-    config.TOKENS_FOLDER,
     config.OAUTH_TOKEN_MAX_AGE
   )
 ));
+
+passport.use(new BearerStrategy(verifier.bearer()));
 
 const configure = (app) => {
   app.use(passport.initialize());

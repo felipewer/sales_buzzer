@@ -7,6 +7,7 @@ import Header from './app/Header';
 import Home from './app/Home';
 import Login from './app/Login';
 import Notification from './app/Notification';
+import Message from './app/Message';
 
 // import Home from 'async!./home/home';
 import auth from '../services/auth';
@@ -59,6 +60,7 @@ export default class App extends Component {
 	
 	logOut() {
 		auth.logOut();
+		this.setState({ loggedIn: false });
 		route('/login', true);
 	}
 	
@@ -74,6 +76,7 @@ export default class App extends Component {
 					</Match>
 					<Login path="/login" />
 				</Router>
+				<Message />
 				<Notification duration="4000" />
 			</div>
 		);
