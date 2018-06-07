@@ -1,7 +1,7 @@
 {
   "name": "startup_buzzer",
   "version": "0.8.0",
-  "description": "",
+  "description": "NodeJS app to play sounds and utter speech on given events.",
   "repository": "github:felipewer/startup_buzzer",
   "scripts": {
     "start": "nodemon --trace-warnings src/server.js",

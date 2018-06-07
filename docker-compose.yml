@@ -21,7 +21,7 @@ services:
     devices:
       - /dev/snd
     # ports:
-    #   - 80:${APP_PORT}
+    #   - ${APP_PORT}:${APP_PORT}
 
   tunnel:
     restart: always
