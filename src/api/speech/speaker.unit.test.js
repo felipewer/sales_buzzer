@@ -38,7 +38,7 @@ describe('speak', () => {
 
     test('spawns subprocess', done => {
       speak('some speech', error => {
-        expect(spawn).toBeCalledWith('spd-say', [ 'some speech' ]);
+        expect(spawn).toBeCalledWith('espeak', [ 'some speech' ]);
         done();
       });
       emitter.emit('close', 0);
@@ -54,7 +54,7 @@ describe('speak', () => {
     
     test('closes with error code', done => {
       speak('new speech', error => {
-        expect(error.message).toEqual('spd-say exited with code 1');
+        expect(error.message).toEqual('espeak exited with code 1');
         done();
       });
       emitter.emit('close', 1);

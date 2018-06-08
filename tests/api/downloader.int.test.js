@@ -25,7 +25,7 @@ describe('getContentLength', () => {
 
   test('should fail', async () => {
     try {
-      await getContentLength('http://fake.com/file.txt');
+      await getContentLength('http://fake/file.txt');
       fail('Should error whith ENOTFOUND');
     } catch(err) {
       expect(err.code).toBe('ENOTFOUND');
@@ -43,7 +43,7 @@ describe('download', () => {
   const filePath = path.join(config.SOUNDS_FOLDER, 'test_download_file.mp3');
 
   test('Should fail', done => {
-    download('http://fake.com/file.txt', filePath, 100)
+    download('http://fake/file.txt', filePath, 100)
       .catch(err => {
         expect(err.code).toBe('ENOTFOUND');
         done();
