@@ -6,6 +6,8 @@ NodeJS app to play sounds and utter speech on given events.
 
 The project is composed of a REST API which can be integrated to other systems via webhooks and a Preact PWA client for admin and playing around.
 
+![screenshot](/screenshot.png)
+
 ## Requirements
 
 ### To access from whitin the local network
